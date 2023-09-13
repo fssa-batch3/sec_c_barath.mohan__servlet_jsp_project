@@ -26,13 +26,7 @@ import com.fssa.proplan.validator.TransactionValidator;
 public class TransactionRecords extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public TransactionRecords() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -40,7 +34,7 @@ public class TransactionRecords extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 
 		TransactionService transactionService = new TransactionService(new TransactionDao(), new TransactionValidator(),
 				new UserDao());
@@ -52,7 +46,7 @@ public class TransactionRecords extends HttpServlet {
 			details = transactionService.getExpenseTransactionDetails(user1);
 
 		} catch (DaoException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -65,16 +59,6 @@ public class TransactionRecords extends HttpServlet {
 		
 
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

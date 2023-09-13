@@ -11,7 +11,6 @@
 <%@ page import="java.util.*"%>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,6 +21,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
 	rel="stylesheet">
+	<link rel="stylesheet" href="./assets/css/errormsg.css">
 
 </head>
 
@@ -30,18 +30,22 @@
 	UserService userService = new UserService(new UserDao(), new UserValidator());
 	TransactionService transactionService = new TransactionService(new TransactionDao(), new TransactionValidator(),
 			new UserDao());
-	System.out.println("emial id " + (String) session.getAttribute("emailid"));
-	System.out.println("password  " + (String) session.getAttribute("password"));
-	User currentUser = userService.login((String) session.getAttribute("emailid"),
-			(String) session.getAttribute("password"));
+	
 	User user = (User) session.getAttribute("currentuser");
 	double balance = transactionService.getBalance(user);
+	
 	double totalIncomeAmount = transactionService.getTotalIncome(user);
 	double totalExpenseAmount = transactionService.getTotalExpense(user);
 	double expensePercentage = ((totalExpenseAmount / totalIncomeAmount) * 100);
+	
 	double balancePercentage = (((totalIncomeAmount - totalExpenseAmount) / totalIncomeAmount) * 100);
 	expensePercentage = Double.parseDouble(String.format("%.2f", expensePercentage));
 	balancePercentage = Double.parseDouble(String.format("%.2f", balancePercentage));
+	float incomeBarHeight= totalIncomeAmount>0 ?200:0;
+	
+	float expenseBarHeight= (float)expensePercentage*2;
+	
+	
 	%>
 	<jsp:include page="./header.jsp"></jsp:include>
 	<main>
@@ -122,7 +126,7 @@
 			<div class="button_div">
 				<button type="submit" id="add_expense_button" value="submit">Add
 					Expense</button>
-				<a href="./home.html" id="back_button"> Back</a>
+				<a href="./home.jsp" id="back_button"> Back</a>
 			</div>
 		</form>
 
@@ -130,7 +134,7 @@
 		<div class="center_side">
 			<h3>Overview</h3>
 			<h1>
-				Welcome  <span id="name"><%=user.getName()%></span>
+				Welcome <span id="name"><%=user.getName()%></span>
 			</h1>
 			<div class="homestats">
 				<div id="homechart">
@@ -138,16 +142,16 @@
 						<!-- <p class="hover_para"> ₹ 20,000</p> -->
 						<div class="chart_div">
 							<p>Total Income</p>
-							<div class="total_income_chart chart_bars"></div>
+							<div class="total_income_chart chart_bars" style="height:<%=incomeBarHeight%>px"></div>
 						</div>
 					</div>
 					<div class="chart_div">
 						<p>Budget</p>
-						<div class="total_income_chart chart_bars"></div>
+						<div class="total_income_chart chart_bars" ></div>
 					</div>
 					<div class="chart_div">
 						<p>Total Expense</p>
-						<div class="total_income_chart chart_bars"></div>
+						<div class="total_income_chart chart_bars"style="height:<%=expenseBarHeight%>px"></div>
 					</div>
 				</div>
 				<div class="add">
@@ -202,7 +206,7 @@
 
 						<%
 						int count = 1;
-						List<Transaction> transactionDetails = transactionService.getAllTransactionDetails(currentUser);
+						List<Transaction> transactionDetails = transactionService.getAllTransactionDetails(user);
 						System.out.println(transactionDetails);
 						for (int i = transactionDetails.size() - 1; i >= 0; i--) {
 							Transaction details = transactionDetails.get(i);
@@ -243,6 +247,43 @@
 	</main>
 	<script src="https://smtpjs.com/v3/smtp.js"></script>
 	<script src="./assets/js/home.js"></script>
+	<script src="./assets/js/notify.js"></script>
+	<script>
+	<%
+	String errorMsg = (String) request.getAttribute("errorMsg");
+	String successMsg = (String) request.getAttribute("successMsg");
+
+	System.out.println((String) request.getAttribute("errorMsg")+"  before   ");
+	
+	
+	
+	if (errorMsg != null) {%>
+		console.log("<%=errorMsg%>");
+		Notify.error("<%=errorMsg%>");
+		setInterval(() => {
+			window.location.href="./home.jsp";
+		}, 4500);
+		
+		<%
+		request.removeAttribute("errorMsg");
+		System.out.println((String) request.getAttribute("errorMsg")+"jskbdhfuvcjyh");
+		errorMsg=null;
+		System.out.print(errorMsg+"jnd");
+	}%>
+		
+		<%
+		if ( successMsg!= null) {%>
+		console.log("<%=successMsg%>");
+		Notify.success("<%=successMsg%>");
+		setInterval(() => {
+			window.location.href="./home.jsp";
+		}, 4500);
+		
+		<%}%>
+		
+		
+
+	</script>
 
 </body>
 

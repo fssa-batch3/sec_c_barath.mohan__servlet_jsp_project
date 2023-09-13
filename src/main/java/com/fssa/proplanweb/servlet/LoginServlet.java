@@ -31,53 +31,47 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Logger logger = new Logger();
+
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		System.out.println(email + "---------" + password);
+
+		Logger.info("email :" + email + "///" + " Password :" + password);
 		User user;
 		UserService userService = new UserService(new UserDao(), new UserValidator());
+		RequestDispatcher rd;
 		try {
 			user = userService.login(email, password);
 
 			if (user != null) {
 				HttpSession session = request.getSession();
-				session.setAttribute("username", user.getName());
-				session.setAttribute("emailid", user.getEmailId());
-				session.setAttribute("phno", user.getPhoneNumber());
-				session.setAttribute("displayname", user.getDisplayName());
-				session.setAttribute("profession", user.getProfession());
-				session.setAttribute("password", user.getPassword());
+
 				session.setAttribute("currentuser", user);
-				logger.info(user.toString());
-				RequestDispatcher rd = request.getRequestDispatcher("./profile.jsp");
-				logger.info("logged in successfully");
 
-				rd.forward(request, response);
+				Logger.info(user.toString());
+				request.setAttribute("successMsg", "Logged in successfully");
+				rd = request.getRequestDispatcher("./profile.jsp");
+
+				Logger.info("logged in successfully");
+
 			} else {
-				RequestDispatcher rd = request.getRequestDispatcher("./login.html");
-				logger.info("User doesn't exist");
+				request.setAttribute("errorMsg","Incorrect username or password");
+				rd = request.getRequestDispatcher("./login.jsp");
 
-				rd.forward(request, response);
+				Logger.info("User doesn't exist");
+				
+
 			}
 		} catch (DaoException | UserException e) {
-			RequestDispatcher rd = request.getRequestDispatcher("./login.html");
-			logger.info(e.getMessage());
+
+			request.setAttribute("errorMsg",e.getMessage());
+			rd = request.getRequestDispatcher("./login.jsp");
+
+			Logger.info(e.getMessage());
 			e.printStackTrace();
-			rd.forward(request, response);
 
 		}
 
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		doGet(request, response);
+		rd.forward(request, response);
 	}
 
 }

@@ -7,19 +7,17 @@
 <%@page import="com.fssa.proplan.model.User"%>
 <%@page import="com.fssa.proplan.service.UserService"%>
 <%
-String displayName= (String)session.getAttribute("displayname");
-String userName=(String) session.getAttribute("username");
-String phNo= (String)session.getAttribute("phno");
-String emailId= (String)session.getAttribute("emailid");
-String profession= (String)session.getAttribute("profession");
-String password=(String) session.getAttribute("password");
+
+User user =(User)session.getAttribute("currentuser");
+String userName=user.getDisplayName();
+
+String profession= user.getProfession();
+
 UserService userService = new UserService(new UserDao(), new UserValidator());
 TransactionService transactionService= new TransactionService(new TransactionDao(), new TransactionValidator(), new UserDao());
-User user = (User) session.getAttribute("currentuser");
 double balance = transactionService.getBalance(user);
 double totalIncomeAmount = transactionService.getTotalIncome(user);
 double totalExpenseAmount = transactionService.getTotalExpense(user);
-
 
 %>
 <div class="right_side">

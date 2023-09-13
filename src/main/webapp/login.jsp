@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +11,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/login-signup.css">
+<link rel="stylesheet" href="./assets/css/errormsg.css">
 <title>login</title>
 <style>
 .right {
@@ -35,17 +38,17 @@
 			<div class="right">
 				<h2>Log In !</h2>
 				<h5>Enter your details</h5>
-					<form id="check" action="./LoginServlet" method="GET">
+				<form id="check" action="./LoginServlet" method="GET">
 					<div class="form-floating mb-3">
 						<input type="email" class="form-control input" id="email"
-							placeholder="Email id" name="email" required> <label for="email">Email
-							id</label>
+							placeholder="Email id" name="email" required> <label
+							for="email">Email id</label>
 					</div>
 					<div class="password">
 						<div class="form-floating mb-3">
 							<input type="password" class="form-control input password_input"
-								id="password" placeholder="Enter password" name="password" required> <label
-								for="password">Enter password</label>
+								id="password" placeholder="Enter password" name="password"
+								required> <label for="password">Enter password</label>
 						</div>
 						<img src="./assets/images/icons/invisible.png" alt="icon"
 							id="pass_close"> <img src="./assets/images/icons/eye.png"
@@ -69,6 +72,23 @@
 		</div>
 
 	</main>
+
 	<script src="./assets/js/signup.js"></script>
+	<script src="./assets/js/notify.js"></script>
+	<script>
+	<%String errorMsg = (String) request.getAttribute("errorMsg");
+String successMsg = (String) request.getAttribute("successMsg");
+if (errorMsg != null) {%>
+		console.log("<%=errorMsg%>");
+		Notify.error("<%=errorMsg%>");
+		setInterval(() => {
+			window.location.href="./login.jsp";
+		}, 3000);	<%
+		
+}
+%>
+
+	</script>
+
 </body>
 </html>

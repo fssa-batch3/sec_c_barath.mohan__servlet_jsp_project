@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@page import="com.fssa.proplan.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,17 +9,18 @@
 	href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
 	rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/profile.css">
+<link rel="stylesheet" href="./assets/css/errormsg.css">
 <title>Proplan</title>
 </head>
 
 <body>
 	<%
-	String displayName = (String) session.getAttribute("displayname");
-	String userName = (String) session.getAttribute("username");
-	String phNo = (String) session.getAttribute("phno");
-	String emailId = (String) session.getAttribute("emailid");
-	String profession = (String) session.getAttribute("profession");
-	String password = (String) session.getAttribute("password");
+	User user= (User) session.getAttribute("currentuser");
+	String displayName = user.getDisplayName();
+	String userName = user.getName();
+	String phNo = user.getPhoneNumber();
+	String emailId = user.getEmailId();
+	String profession =user.getProfession();
 	%>
 
 	<jsp:include page="./header.jsp"></jsp:include>
@@ -92,8 +94,44 @@
 		<jsp:include page="./profiletab.jsp"></jsp:include>
 	</main>
 
-
 	<script src="./assets/js/profile.js"></script>
+		<script src="./assets/js/notify.js"></script>
+	<script>
+	<%
+	String errorMsg = (String) request.getAttribute("errorMsg");
+	String successMsg = (String) request.getAttribute("successMsg");
+
+	System.out.println((String) request.getAttribute("errorMsg")+"  before   ");
+	
+	
+	
+	if (errorMsg != null) {%>
+		console.log("<%=errorMsg%>");
+		Notify.error("<%=errorMsg%>");
+		setInterval(() => {
+			window.location.href="./profile.jsp";
+		}, 5000);
+		
+		<%
+		request.removeAttribute("errorMsg");
+		System.out.println((String) request.getAttribute("errorMsg")+"jskbdhfuvcjyh");
+		errorMsg=null;
+		System.out.print(errorMsg+"jnd");
+	}%>
+		
+		<%
+		if ( successMsg!= null) {%>
+		console.log("<%=successMsg%>");
+		Notify.success("<%=successMsg%>");
+		setInterval(() => {
+			window.location.href="./profile.jsp";
+		}, 5000);
+		
+		<%}%>
+		
+		
+
+	</script>
 
 </body>
 </html>

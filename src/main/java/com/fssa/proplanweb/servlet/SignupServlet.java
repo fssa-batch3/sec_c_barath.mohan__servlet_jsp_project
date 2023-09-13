@@ -52,7 +52,7 @@ public class SignupServlet extends HttpServlet {
 			userService.addUser(userDetails);
 			HttpSession session = request.getSession();
 			session.setAttribute("currentUser", userDetails);
-			RequestDispatcher rd= request.getRequestDispatcher("./login.html");
+			RequestDispatcher rd= request.getRequestDispatcher("./login.jsp");
 			rd.forward(request, response);
 		} catch (DaoException | UserException e) {
 			

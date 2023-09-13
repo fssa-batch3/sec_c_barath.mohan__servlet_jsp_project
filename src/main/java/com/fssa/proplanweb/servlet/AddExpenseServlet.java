@@ -1,6 +1,8 @@
 package com.fssa.proplanweb.servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +15,7 @@ import com.fssa.proplan.dao.UserDao;
 import com.fssa.proplan.enumclass.TransactionType;
 import com.fssa.proplan.exceptions.DaoException;
 import com.fssa.proplan.exceptions.TransactionException;
+import com.fssa.proplan.logger.Logger;
 import com.fssa.proplan.model.Transaction;
 import com.fssa.proplan.model.User;
 import com.fssa.proplan.service.TransactionService;
@@ -37,12 +40,17 @@ public class AddExpenseServlet extends HttpServlet {
 		try {
 			transactionService.addTransaction(Transaction);
 			System.out.println("Expense has been successfully added");
-			response.sendRedirect("./home.jsp");  
+			Logger.info("Expense has been successfully added");
+			request.setAttribute("successMsg", "Expense added successfully");
+			 
 		} catch (DaoException | TransactionException e) {
-			System.out.println(e.getMessage());
+			request.setAttribute("errorMsg", e.getMessage());
+			Logger.info(e.getMessage());
 			e.printStackTrace();
 		}
-		
+		RequestDispatcher rd = request.getRequestDispatcher("./home.jsp");
+		rd.forward(request, response);
+
 	}
 
 }
