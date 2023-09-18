@@ -27,30 +27,42 @@ import com.fssa.proplan.validator.TransactionValidator;
 @WebServlet("/AddExpenseServlet")
 public class AddExpenseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		User user = (User)session.getAttribute("currentuser");
-		TransactionService transactionService= new TransactionService(new TransactionDao(),new TransactionValidator(), new UserDao());
-		Transaction Transaction= new Transaction(user,TransactionType.EXPENSE,Double.parseDouble(request.getParameter("amount")),(String)request.getParameter("remarks"));
-		try {
-			transactionService.addTransaction(Transaction);
-			System.out.println("Expense has been successfully added");
-			Logger.info("Expense has been successfully added");
-			request.setAttribute("successMsg", "Expense added successfully");
-			 
-		} catch (DaoException | TransactionException e) {
-			request.setAttribute("errorMsg", e.getMessage());
-			Logger.info(e.getMessage());
-			e.printStackTrace();
-		}
-		RequestDispatcher rd = request.getRequestDispatcher("./home.jsp");
-		rd.forward(request, response);
+		User user = (User) session.getAttribute("currentuser");
+		if (user == null) {
+			request.setAttribute("errorMsg", "Login / Session Expired");
+			request.setAttribute("path", "./login.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("./login.jsp");
+			rd.forward(request, response);
+		} else {
+			TransactionService transactionService = new TransactionService(new TransactionDao(),
+					new TransactionValidator(), new UserDao());
+			Transaction transaction = new Transaction();
+			transaction.setAmount(Double.parseDouble(request.getParameter("amount")));
+			transaction.setUser(user);
+			transaction.setRemarks((String) request.getParameter("remarks"));
+			transaction.setTransactionType(TransactionType.EXPENSE);
+			transaction.setCategoryName(request.getParameter("expense_category"));
+			try {
+				transactionService.addTransaction(transaction);
+				System.out.println("Expense has been successfully added");
+				Logger.info("Expense has been successfully added");
+				response.sendRedirect("./HomePage?successMsg=\"Expense added successfully\"");
 
+			} catch (DaoException | TransactionException e) {
+				response.sendRedirect("./HomePage?errorMsg=\"" + e.getMessage() + "\"");
+
+				Logger.info(e.getMessage());
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

@@ -75,20 +75,7 @@
 
 	<script src="./assets/js/signup.js"></script>
 	<script src="./assets/js/notify.js"></script>
-	<script>
-	<%String errorMsg = (String) request.getAttribute("errorMsg");
-String successMsg = (String) request.getAttribute("successMsg");
-if (errorMsg != null) {%>
-		console.log("<%=errorMsg%>");
-		Notify.error("<%=errorMsg%>");
-		setInterval(() => {
-			window.location.href="./login.jsp";
-		}, 3000);	<%
-		
-}
-%>
-
-	</script>
+	<jsp:include page="./successErrorMsg.jsp"></jsp:include>
 
 </body>
 </html>

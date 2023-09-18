@@ -7,13 +7,13 @@ function backgroundblur() {
 
 //      Viewing Income form with categories
 
-const add_income = document.getElementById("add_income");
+//const add_income = document.getElementById("add_income");
 
-add_income.addEventListener("click", (e) => {
-  const form1 = document.getElementsByClassName("add_income_form");
-  form1[0].classList.add("view");
-  backgroundblur();
-});
+//add_income.addEventListener("click", (e) => {
+  //const form1 = document.getElementsByClassName("add_income_form");
+  //form1[0].classList.add("view");
+  //backgroundblur();
+//});
 
 
 // Viewing Expense form with categories

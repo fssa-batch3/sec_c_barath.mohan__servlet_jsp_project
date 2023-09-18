@@ -23,7 +23,7 @@
 				alt="icon">
 			</a>
 			<p>
-				Already have a account? <a href="./login.html">Log
+				Already have a account? <a href="./login.jsp">Log
 					in </a>
 			</p>
 		</div>

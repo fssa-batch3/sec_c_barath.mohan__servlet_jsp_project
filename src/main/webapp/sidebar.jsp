@@ -5,7 +5,7 @@
 			alt="icons"> Home
 		</a> <a href="analytics.jsp"> <img
 			src="./assets/images/icons/statistics.png" alt="">Analytics
-		</a> <a href="budget.jsp"> <img src="./assets/images/icons/budget.png"
+		</a> <a href="./BudgetServlet"> <img src="./assets/images/icons/budget.png"
 			alt="icons"> Budget
 		</a> <a href="wallet.jsp"> <img src="./assets/images/icons/savings.png"
 			alt="icons"> Wallet

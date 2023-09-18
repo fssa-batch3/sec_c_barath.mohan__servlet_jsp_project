@@ -45,25 +45,24 @@ public class AddIncomeServlet extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		User user = (User) session.getAttribute("currentuser");
 		TransactionService transactionService = new TransactionService(new TransactionDao(), new TransactionValidator(),
-				new UserDao());
-		Transaction Transaction = new Transaction(user, TransactionType.INCOME,
+				new UserDao()); 
+		Transaction transaction = new Transaction(user, TransactionType.INCOME,
 				Double.parseDouble(request.getParameter("amount")), (String) request.getParameter("remarks"));
 		try {
-			transactionService.addTransaction(Transaction);
+			transactionService.addTransaction(transaction);
 			Logger.info("Income has been successfully added");
-			request.setAttribute("successMsg", "Income added successfully");
+			response.sendRedirect("./HomePage?successMsg=\"Income added successfully\"");
  
-		} catch (DaoException | TransactionException e) {
-			request.setAttribute("errorMsg", e.getMessage());
+		} catch (DaoException | TransactionException e) { 
+
+			response.sendRedirect("./HomePage?errorMsg=\""+e.getMessage()+"\"");
 			
 			Logger.info(e.getMessage());
 
 			e.printStackTrace();
-		}
+		} 
 		
-		RequestDispatcher rd = request.getRequestDispatcher("./home.jsp");
-		rd.forward(request, response);
-
+	
 	}
 
 }

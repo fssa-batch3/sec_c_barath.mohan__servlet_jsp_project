@@ -10,12 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fssa.proplan.dao.BudgetDao;
 import com.fssa.proplan.dao.UserDao;
 import com.fssa.proplan.exceptions.DaoException;
 import com.fssa.proplan.exceptions.UserException;
 import com.fssa.proplan.logger.Logger;
+import com.fssa.proplan.model.Budget;
 import com.fssa.proplan.model.User;
+import com.fssa.proplan.service.BudgetService;
 import com.fssa.proplan.service.UserService;
+import com.fssa.proplan.validator.BudgetValidator;
 import com.fssa.proplan.validator.UserValidator;
 
 /**
@@ -24,6 +28,8 @@ import com.fssa.proplan.validator.UserValidator;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	BudgetService budgetService = new BudgetService(new BudgetValidator(), new BudgetDao(), new UserDao());
+	UserService userService = new UserService(new UserDao(), new UserValidator());
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -37,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 
 		Logger.info("email :" + email + "///" + " Password :" + password);
 		User user;
-		UserService userService = new UserService(new UserDao(), new UserValidator());
+
 		RequestDispatcher rd;
 		try {
 			user = userService.login(email, password);
@@ -46,6 +52,9 @@ public class LoginServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 
 				session.setAttribute("currentuser", user);
+				Budget budget = budgetService.getBudgetByUser(user);
+
+				session.setAttribute("budget", budget);
 
 				Logger.info(user.toString());
 				request.setAttribute("successMsg", "Logged in successfully");
@@ -54,16 +63,15 @@ public class LoginServlet extends HttpServlet {
 				Logger.info("logged in successfully");
 
 			} else {
-				request.setAttribute("errorMsg","Incorrect username or password");
+				request.setAttribute("errorMsg", "Incorrect username or password");
 				rd = request.getRequestDispatcher("./login.jsp");
 
 				Logger.info("User doesn't exist");
-				
 
 			}
 		} catch (DaoException | UserException e) {
 
-			request.setAttribute("errorMsg",e.getMessage());
+			request.setAttribute("errorMsg", e.getMessage());
 			rd = request.getRequestDispatcher("./login.jsp");
 
 			Logger.info(e.getMessage());
