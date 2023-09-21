@@ -7,10 +7,6 @@
 				href="./wallet.html"> <img src="./assets/images/icons/wallet_icon.png"
 				alt="icon"> <span id="nav_balance">0/-</span>
 			</a>
-			<div id="date">
-				<span id="date_value"></span> <img
-					src="./assets/images/icons/edit_img.png" alt="img" id="date_edit">
-			</div>
 			<a href="./login.jsp">
 			<span id="log_out" title="Log out"> <img
 				src="./assets/images/icons/log_out.png" alt="icon"></span>

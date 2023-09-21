@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.fssa.proplan.validator.TransactionValidator"%>
 <%@page import="com.fssa.proplan.dao.TransactionDao"%>
 <%@page import="com.fssa.proplan.service.TransactionService"%>
@@ -7,8 +8,10 @@
 <%@page import="com.fssa.proplan.service.UserService"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="com.fssa.proplan.*"%>
-<%@ page import="java.util.*"%>
+<%@page import="com.fssa.proplan.*"%>
+<%@page import="java.util.*"%>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,16 +31,16 @@
 <body>
 	<%
 	User user = (User) session.getAttribute("currentuser");
-	
+
 	Budget budget = (Budget) session.getAttribute("budget");
-	ArrayList<BudgetCategory> budgetCategories= new ArrayList<BudgetCategory>();
+	ArrayList<BudgetCategory> budgetCategories = new ArrayList<BudgetCategory>();
 	double budgetPercentage = 0;
 	double expensesAllowed = 0;
-	if(budget!=null){
+	if (budget != null) {
 
 		budgetCategories = (ArrayList<BudgetCategory>) budget.getBudgetCategory();
-		budgetPercentage= budget.getExpensePercentage();
-		expensesAllowed=budget.getBudgetAmount();
+		budgetPercentage = budget.getExpensePercentage();
+		expensesAllowed = budget.getBudgetAmount();
 	}
 
 	double balance = (double) request.getAttribute("balance");
@@ -50,10 +53,12 @@
 	expensePercentage = Double.parseDouble(String.format("%.2f", expensePercentage));
 	balancePercentage = Double.parseDouble(String.format("%.2f", balancePercentage));
 	float incomeBarHeight = totalIncomeAmount > 0 ? 200 : 0;
-	float budgetBarHeight =(float) budgetPercentage *2;
+	float budgetBarHeight = (float) budgetPercentage * 2;
 	float expenseBarHeight = (float) expensePercentage * 2;
 
 	List<Transaction> transactionDetails = (List<Transaction>) request.getAttribute("transactionDetails");
+	Calendar cal = Calendar.getInstance();
+	String currentMonth = new SimpleDateFormat("MMMMMMMMMMM").format(cal.getTime());
 	%>
 	<jsp:include page="./header.jsp"></jsp:include>
 	<main>
@@ -107,7 +112,8 @@
 				<%
 				for (BudgetCategory category : budgetCategories) {
 				%>
-				<label for="<%=category.getCategoryName()%>"> <input type="radio" id="<%=category.getCategoryName()%>"
+				<label for="<%=category.getCategoryName()%>"> <input
+					type="radio" id="<%=category.getCategoryName()%>"
 					name="expense_category" value="<%=category.getCategoryName()%>"
 					required> <%=category.getCategoryName()%>
 				</label>
@@ -129,10 +135,10 @@
 
 		<!--------------- Center Content ------------------ -->
 		<div class="center_side">
-			<h3>Overview</h3>
-			<h1>
+			<h4>Overview</h4>
+			<h2>
 				Welcome <span id="name"><%=user.getName()%></span>
-			</h1>
+			</h2>
 			<div class="homestats">
 				<div id="homechart">
 					<div class="div">
@@ -146,7 +152,7 @@
 					<div class="chart_div">
 						<p>Budget</p>
 						<div class="total_income_chart chart_bars"
-						style="height:<%=budgetBarHeight%>px"></div>
+							style="height:<%=budgetBarHeight%>px"></div>
 					</div>
 					<div class="chart_div">
 						<p>Total Expense</p>
@@ -190,7 +196,9 @@
 			<!-- -------------- Home Table------------- -->
 			<div class="home_transactions">
 
-				<h2>This month - January</h2>
+				<h3>
+					This month -
+					<%=currentMonth%></h3>
 				<table>
 
 					<tr>
@@ -211,7 +219,7 @@
 						%>
 						<tr>
 							<td><%=i + 1%></td>
-							<td><%=details.getRemarks()%><br> <span><%=details.getTransactionType().getStringValue()%></span>
+							<td><%=details.getRemarks()%><br> <span><%=details.getTransactionType().getValue()%></span>
 							</td>
 							<td
 								id="<%=details.getTransactionType().toString().toLowerCase()%>">&#8377;

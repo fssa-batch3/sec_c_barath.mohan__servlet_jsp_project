@@ -2,10 +2,12 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.fssa.proplan.logger.Logger"%>
 <%@page import="com.fssa.proplan.model.Budget"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="ISO-8859-1">
 <title>Proplan - Budget</title>
@@ -21,15 +23,17 @@
 	double monthlyIncome = 0;
 	double expensePercentage = 0;
 	double totalAmountSpentPercentage = 0;
-	double totalAmountSpentPercentageChart=0;
+	double totalAmountSpentPercentageChart = 0;
 	ArrayList<BudgetCategory> budgetCategories = new ArrayList<BudgetCategory>();
 	if (budget != null) {
 		budgetAmount = budget.getBudgetAmount();
 		totalAmountSpent = budget.getAmountSpent();
 		monthlyIncome = budget.getMonthlyIncome();
 		expensePercentage = budget.getExpensePercentage();
+		expensePercentage = Double.parseDouble(String.format("%.2f", expensePercentage));
 		totalAmountSpentPercentage = (totalAmountSpent / budgetAmount) * 100;
-		totalAmountSpentPercentageChart= (totalAmountSpent/budgetAmount)*120;
+		totalAmountSpentPercentage = Double.parseDouble(String.format("%.2f", totalAmountSpentPercentage));
+		totalAmountSpentPercentageChart = (totalAmountSpent / budgetAmount) * 120;
 		budgetCategories = (ArrayList<BudgetCategory>) budget.getBudgetCategory();
 	}
 
@@ -37,6 +41,7 @@
 	%>
 	<jsp:include page="./header.jsp"></jsp:include>
 	<main>
+	
 		<!-- --------------left side div--------------- -->
 		<jsp:include page="./sidebar.jsp"></jsp:include>
 		<div class="center_content">
@@ -47,12 +52,12 @@
 				%>
 				<p id="create_budget">Create a Budget Plan</p>
 				<%
-				}
-				else{
+				} else {
 				%>
 				<p id="edit_budget">Edit your Budget Plan</p>
 				<%
-				}%>
+				}
+				%>
 
 			</div>
 			<div class="total_income_show">
@@ -77,7 +82,8 @@
 
 				<div class="difference_chart">
 					<div class=" expenses_allowed bar_chart"></div>
-					<div class="expenses_spent bar_chart" style="height:<%=totalAmountSpentPercentageChart%>px" ></div>
+					<div class="expenses_spent bar_chart"
+						style="height:<%=totalAmountSpentPercentageChart%>px"></div>
 				</div>
 
 				<div class="totally_spent content1_d">
@@ -97,7 +103,7 @@
 			<div class="categories_compare">
 				<div class="categories_compare_header">
 					<h2>Categories</h2>
-					
+
 				</div>
 				<div class="categories_data">
 
@@ -114,30 +120,44 @@
 					}
 					%>
 					<%
-					int i=0;
 					for (BudgetCategory category : budgetCategories) {
-						i++;
+
+						double amountSpentBarHeight = (category.getAmountSpent() / category.getBudgetAmount()) * 180;
+						double barHeight=180;
+						double budgetAmountBarHeight = barHeight;
+						if (amountSpentBarHeight > barHeight) {
+							budgetAmountBarHeight -= (amountSpentBarHeight - barHeight);
+							amountSpentBarHeight = barHeight;
+
+						}
 					%>
 					<div class="cateogory_details">
-						<h3>
-							<%=i %>.
-							<%=category.getCategoryName()%></h3>
+							<h3><%=category.getCategoryName()%></h3>
 						<p>
-							Budget - &#8377;
-							<%=category.getBudgetAmount()%>/-
+							Budget - <span class="budget_amount"> &#8377; <%=category.getBudgetAmount()%> /-
+							</span>
 						</p>
 						<p>
-							Spent - &#8377;
-							<%=category.getAmountSpent()%>/-
+							Spent - <span class="spent_amount">&#8377; <%=category.getAmountSpent()%> /-
+							</span>
 						</p>
 						<div class="category_chart">
-							<div class="expenses_allowed"></div>
-							<div class="expenses_spent"></div>
+							<div class="chart_div">
+								<p>Budget</p>
+
+								<div class="expenses_allowed"
+									style=" height:<%=budgetAmountBarHeight%>px;"></div>
+							</div>
+							<div class="chart_div">
+								<p>Expense</p>
+
+								<div class="expenses_spent"
+									style=" height:<%=amountSpentBarHeight%>px;"></div>
+							</div>
 						</div>
+						
 					</div>
 					<%
-					
-
 					}
 					%>
 
@@ -284,6 +304,8 @@
 					</div>
 
 					<!--  content comes from js -->
+					
+					
 				</div>
 				<p id="updated_add_category">Add a category</p>
 				<div class="save_category_details">
@@ -297,7 +319,7 @@
 
 	</main>
 	<jsp:include page="./successErrorMsg.jsp"></jsp:include>
-
+	
 </body>
 <script src="./assets/js/budget.js"></script>
 

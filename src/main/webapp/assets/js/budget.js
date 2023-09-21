@@ -3,14 +3,16 @@
 
 let create_budget = document.getElementById("create_budget")
 let create_budget_div = document.querySelector(".budget")
+if (create_budget) {
 
-create_budget.addEventListener("click", e => {
-	console.log("df");
+	create_budget.addEventListener("click", e => {
+		console.log("df");
 
-	create_budget_div.classList.add("view")
+		create_budget_div.classList.add("view")
 
-	// backgroundblur()
-})
+		// backgroundblur()
+	})
+}
 
 
 
@@ -30,7 +32,7 @@ let ex_percentage
 let sav_value
 let sav_percentage
 let monthly_income
-let monthly_income_input = document.getElementById("monthly_income") 
+let monthly_income_input = document.getElementById("monthly_income")
 next_step[0].addEventListener("click", e => {
 
 	monthly_income = document.getElementById("monthly_income").value
