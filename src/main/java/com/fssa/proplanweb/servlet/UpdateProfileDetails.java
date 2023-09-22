@@ -24,10 +24,14 @@ import com.fssa.proplan.validator.UserValidator;
 @WebServlet("/UpdateProfileDetails")
 public class UpdateProfileDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-  
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+ 
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.getWriter().println("test");
+	}
+	
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		User user = new User();
@@ -46,6 +50,7 @@ public class UpdateProfileDetails extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			request.setAttribute("successMsg", "Profile upddated successfully");
+			
 			session.setAttribute("currentuser", user1);
 			
 		} catch (DaoException | UserException e) {
@@ -54,8 +59,8 @@ public class UpdateProfileDetails extends HttpServlet {
 			request.setAttribute("errorMsg", e.getMessage());
 			e.printStackTrace();
 		}
-		
-		RequestDispatcher rd = request.getRequestDispatcher("./profile.jsp");
+		request.setAttribute("path", "./ProfileDetails");
+		RequestDispatcher rd = request.getRequestDispatcher("./ProfileDetails");
 		rd.forward(request, response);
 	}
 	

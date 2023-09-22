@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	<%@page import="com.fssa.proplan.model.*"%>
+<%@page import="com.fssa.proplan.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +15,21 @@
 
 <body>
 	<%
-	User user= (User) session.getAttribute("currentuser");
-	String displayName = user.getDisplayName();
-	String userName = user.getName();
-	String phNo = user.getPhoneNumber();
-	String emailId = user.getEmailId();
-	String profession =user.getProfession();
+	User user = (User) request.getAttribute("currentuser");
+	String displayName = "";
+	String userName = "";
+	String phNo = "";
+	String emailId = "";
+	String profession = "";
+	if (user == null) {
+
+	} else {
+		displayName = user.getDisplayName() != null ?user.getDisplayName() : "";
+		userName = user.getName();
+		phNo = user.getPhoneNumber();
+		emailId = user.getEmailId();
+		profession = user.getProfession();
+	}
 	%>
 
 	<jsp:include page="./header.jsp"></jsp:include>
@@ -36,7 +45,7 @@
 			</div>
 			<div class="right_content">
 				<p>
-					Display name <span id="display_name"><%=displayName != null ? displayName : ""%></span>
+					Display name <span id="display_name"><%=displayName%></span>
 				</p>
 				<p>
 					Name<span class="name"><%=userName%></span>
@@ -63,7 +72,7 @@
 					<p>
 						Display Name <input type="text" id="new_display_name"
 							name="displayname"
-							value="<%=displayName != null ? displayName : ""%>">
+							value="<%=displayName %>">
 					</p>
 					<p>
 						Name <input type="text" id="new_name" name="name"
@@ -95,43 +104,9 @@
 	</main>
 
 	<script src="./assets/js/profile.js"></script>
-		<script src="./assets/js/notify.js"></script>
-	<script>
-	<%
-	String errorMsg = (String) request.getAttribute("errorMsg");
-	String successMsg = (String) request.getAttribute("successMsg");
+	<script src="./assets/js/notify.js"></script>
+	<jsp:include page="./successErrorMsg.jsp"></jsp:include>
 
-	System.out.println((String) request.getAttribute("errorMsg")+"  before   ");
-	
-	
-	
-	if (errorMsg != null) {%>
-		console.log("<%=errorMsg%>");
-		Notify.error("<%=errorMsg%>");
-		setInterval(() => {
-			window.location.href="./profile.jsp";
-		}, 5000);
-		
-		<%
-		request.removeAttribute("errorMsg");
-		System.out.println((String) request.getAttribute("errorMsg")+"jskbdhfuvcjyh");
-		errorMsg=null;
-		System.out.print(errorMsg+"jnd");
-	}%>
-		
-		<%
-		if ( successMsg!= null) {%>
-		console.log("<%=successMsg%>");
-		Notify.success("<%=successMsg%>");
-		setInterval(() => {
-			window.location.href="./profile.jsp";
-		}, 5000);
-		
-		<%}%>
-		
-		
-
-	</script>
 
 </body>
 </html>

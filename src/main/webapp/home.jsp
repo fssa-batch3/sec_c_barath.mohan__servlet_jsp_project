@@ -252,10 +252,10 @@
 		<!-- -----------Right Side Div ------------------ -->
 		<jsp:include page="./profiletab.jsp"></jsp:include>
 	</main>
-	<script src="https://smtpjs.com/v3/smtp.js"></script>
+	
 	<script src="./assets/js/home.js"></script>
 
-	<jsp:include page="./successErrorMsg.jsp"></jsp:include>
+	<jsp:include page="./successErrorMsg.jsp"></jsp:include> 
 
 </body>
 

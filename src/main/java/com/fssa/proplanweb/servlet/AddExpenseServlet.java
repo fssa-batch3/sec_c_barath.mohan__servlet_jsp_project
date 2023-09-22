@@ -52,12 +52,12 @@ public class AddExpenseServlet extends HttpServlet {
 			transaction.setCategoryName(request.getParameter("expense_category"));
 			try {
 				transactionService.addTransaction(transaction);
-				System.out.println("Expense has been successfully added");
+		
 				Logger.info("Expense has been successfully added");
-				response.sendRedirect("./HomePage?successMsg=\"Expense added successfully\"");
+				response.sendRedirect("./HomePage?successMsg=Expense added successfully");
 
 			} catch (DaoException | TransactionException e) {
-				response.sendRedirect("./HomePage?errorMsg=\"" + e.getMessage() + "\"");
+				response.sendRedirect("./HomePage?errorMsg=" + e.getMessage() + "");
 
 				Logger.info(e.getMessage());
 				e.printStackTrace();

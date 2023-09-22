@@ -19,7 +19,7 @@
 	<div id="circle"></div>
 	<main>
 		<div class="top">
-			<a href=""> <img src="./assets/img/icons/proplan_logo.png"
+			<a href=""> <img src="./assets/images/icons/proplan_logo.png"
 				alt="icon">
 			</a>
 			<p>
@@ -29,7 +29,7 @@
 		</div>
 		<div class="maincontainer">
 			<div class="left">
-				<img src="./assets/img/signup image.jpg" alt="img">
+				<img src="./assets/images/signup image.jpg" alt="img">
 			</div>
 			<div class="right">
 				<h2>Get Started !</h2>

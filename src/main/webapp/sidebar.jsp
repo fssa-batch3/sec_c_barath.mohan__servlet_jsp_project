@@ -11,7 +11,7 @@
 			alt="icons"> Wallet
 		</a> <a href="notes.jsp"> <img src="./assets/images/icons/notes.png"
 			alt="icons">Notes
-		</a> <a href="./profile.jsp" id="profile"> <img
+		</a> <a href="./ProfileDetails" id="profile"> <img
 			src="./assets/images/icons/profile.png" alt="icons"> Profile
 		</a> <a href="about.jsp"> <img src="./assets/images/icons/about.png"
 			alt="icons"> About

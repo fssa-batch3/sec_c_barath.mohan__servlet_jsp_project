@@ -40,46 +40,56 @@ public class LoginServlet extends HttpServlet {
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		if(email==null&& password==null) {
+			response.sendRedirect("./login.jsp");
+		}
+		else {
+			
+			Logger.info("email :" + email + "///" + " Password :" + password);
+			User user;
 
-		Logger.info("email :" + email + "///" + " Password :" + password);
-		User user;
+			RequestDispatcher rd;
+			try {
+				user = userService.login(email, password);
 
-		RequestDispatcher rd;
-		try {
-			user = userService.login(email, password);
+				if (user != null) {
+					HttpSession session = request.getSession();
 
-			if (user != null) {
-				HttpSession session = request.getSession();
+					session.setAttribute("currentuser", user);
+					Budget budget = budgetService.getBudgetByUser(user);
 
-				session.setAttribute("currentuser", user);
-				Budget budget = budgetService.getBudgetByUser(user);
+					session.setAttribute("budget", budget);
 
-				session.setAttribute("budget", budget);
+					Logger.info(user.toString());
+					request.setAttribute("successMsg", "Logged in successfully");
+					request.setAttribute("path", "ProfileDetails");
+					rd = request.getRequestDispatcher("./ProfileDetails");
 
-				Logger.info(user.toString());
-				request.setAttribute("successMsg", "Logged in successfully");
-				rd = request.getRequestDispatcher("./profile.jsp");
+					Logger.info("logged in successfully");
 
-				Logger.info("logged in successfully");
+				} else {
+					request.setAttribute("errorMsg", "Incorrect username or password");
+					request.setAttribute("path","./login.jsp");
+					rd = request.getRequestDispatcher("./login.jsp");
 
-			} else {
-				request.setAttribute("errorMsg", "Incorrect username or password");
+					Logger.info("User doesn't exist");
+
+				}
+			} catch (DaoException | UserException e) {
+
+				request.setAttribute("errorMsg", e.getMessage());
+				request.setAttribute("path", "./login.jsp");
 				rd = request.getRequestDispatcher("./login.jsp");
 
-				Logger.info("User doesn't exist");
+				Logger.info(e.getMessage());
+				e.printStackTrace();
 
 			}
-		} catch (DaoException | UserException e) {
 
-			request.setAttribute("errorMsg", e.getMessage());
-			rd = request.getRequestDispatcher("./login.jsp");
-
-			Logger.info(e.getMessage());
-			e.printStackTrace();
-
+			rd.forward(request, response);
 		}
 
-		rd.forward(request, response);
+		
 	}
 
 }
