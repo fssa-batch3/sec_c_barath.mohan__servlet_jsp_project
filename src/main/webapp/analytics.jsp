@@ -23,10 +23,11 @@
 Budget budget = (Budget) session.getAttribute("budget");
 
 ArrayList<BudgetCategory> budgetCategories = new ArrayList<BudgetCategory>();
-
+double expenseAmount=0;
 if (budget != null) {
-
+	 expenseAmount= budget.getAmountSpent();
 	budgetCategories = (ArrayList) budget.getBudgetCategory();
+	
 }
 %>
 </head>
@@ -101,9 +102,9 @@ if (budget != null) {
 
 			<div class="expense_header">
 				<p>
-					Total Expenses : <span class="total_expense_value">&#8377;  <%=budget.getAmountSpent()%>/-</span>
+					Total Expenses : <span class="total_expense_value">&#8377;  <%=expenseAmount%>/-</span>
 				</p>
-				<p id="create_expense_category">View Category Budget</p>
+				<a href="./BudgetServlet" id="create_expense_category">View Category Budget</a>
 			</div>
 
 			<div class="expense_categories">
@@ -155,7 +156,7 @@ if (budget != null) {
 					
 					</div>
 					<div class="expenses_total">
-						Total Expenses : <span class="total_expense_value">&#8377; <%=budget.getAmountSpent() %>/-</span>
+						Total Expenses : <span class="total_expense_value">&#8377; <%=expenseAmount %>/-</span>
 					</div>
 				</div>
 

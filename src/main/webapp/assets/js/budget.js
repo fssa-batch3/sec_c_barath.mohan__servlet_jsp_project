@@ -94,7 +94,7 @@ add_category_button.addEventListener("click", e => {
 		total_expense_value += Number(e.value)
 	})
 	console.log(total_expense_value);
-	if (total_expense_value > pre_value) {
+	if (total_expense_value >= pre_value) {
 		swal("Oops", "The categorised amount overtakes allowed expense amount", "warning")
 	}
 	else {
@@ -113,19 +113,48 @@ add_category_button.addEventListener("click", e => {
 
 
 document.querySelector(".budget").addEventListener("submit", e => {
-	let category_budget = document.querySelectorAll(".budget_value")
+	let categoryBudgetName = document.querySelectorAll(".budget_category");
+	let categoryBudgetValue = document.querySelectorAll(".budget_value")
+	
+	for (let i = 0; i < categoryBudgetName.length; i++) {
+		console.log("name : "+categoryBudgetName[i].value.trim())
+		if (categoryBudgetName[i].value.trim() == "" || categoryBudgetValue[i].value.trim() == "") {
+		
+			e.preventDefault();
+			
+			swal("Failed!", "Category name/ value cannot be empty", "error");
+		}
+				console.log(categoryBudgetValue[i].value.trim())
+			if(categoryBudgetValue[i].value<=0){
+			e.preventDefault();	
+			swal("Failed!", "Category budget amount should be greater than 0", "error");
+			}
+
+	}
+	
 	let total_expense_value = 0
-	category_budget.forEach(e => {
+	categoryBudgetValue.forEach(e => {
 		total_expense_value += Number(e.value)
 	})
+	console.log("total : "+total_expense_value+" pre : "+pre_value);
 	if (total_expense_value > pre_value) {
-		swal("Oops", "The categorised amount overtakes allowed expense amount", "warning")
 		e.preventDefault();
+		swal("Oops", "The categorised amount overtakes allowed expense amount", "warning")	
 	}
-
 	monthly_income_input.disabled = false;
 	budget_range_input.disabled = false;
 
 })
 
+
+
+document.querySelector(".budget").addEventListener("submit", e => {
+
+
+
+
+
+
+
+})
 

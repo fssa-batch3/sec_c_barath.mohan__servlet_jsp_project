@@ -38,6 +38,7 @@ public class BudgetServlet extends HttpServlet {
 	BudgetService budgetService = new BudgetService(new BudgetValidator(), new BudgetDao(), new UserDao());
 	TransactionService transactionService = new TransactionService(new TransactionDao(), new TransactionValidator(),
 			new UserDao());
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -49,7 +50,7 @@ public class BudgetServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("./login.jsp");
 			rd.forward(request, response);
 		} else {
-			try { 
+			try {
 				Budget budget = budgetService.getBudgetByUser(user);
 
 				session.setAttribute("budget", budget);
@@ -87,11 +88,19 @@ public class BudgetServlet extends HttpServlet {
 			String[] categoryBudgets = request.getParameterValues("categoryBudget");
 
 			ArrayList<BudgetCategory> budgetCategories = new ArrayList<BudgetCategory>();
-
+			double totalAddedAmount = 0;
 			for (int i = 0; i < categoryNames.length; i++) {
+				totalAddedAmount += Double.parseDouble(categoryBudgets[i]);
 				BudgetCategory budgetCategory = new BudgetCategory();
 				budgetCategory.setCategoryName(categoryNames[i]);
 				budgetCategory.setBudgetAmount(Double.parseDouble(categoryBudgets[i]));
+				budgetCategory.setAmountSpent(0);
+				budgetCategories.add(budgetCategory);
+			}
+			if (totalAddedAmount < budgetAmount) {
+				BudgetCategory budgetCategory = new BudgetCategory();
+				budgetCategory.setCategoryName("Others");
+				budgetCategory.setBudgetAmount(budgetAmount - totalAddedAmount);
 				budgetCategory.setAmountSpent(0);
 				budgetCategories.add(budgetCategory);
 			}
@@ -99,7 +108,7 @@ public class BudgetServlet extends HttpServlet {
 
 			Logger.info(budget);
 
-			Transaction transaction =new Transaction();
+			Transaction transaction = new Transaction();
 			transaction.setAmount(monthlyIncome);
 			transaction.setUser(user);
 			transaction.setRemarks("Monthly Income");

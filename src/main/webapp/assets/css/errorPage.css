@@ -1,0 +1,23 @@
+@charset "ISO-8859-1";
+
+header {
+	display: flex;
+	justify-content: space-around;
+	margin: 20px;
+}
+
+header a {
+	background-color: #398be8;
+	padding: 6px 15px;
+	font-size: 14px;
+	font-weight: 600;
+	color: white;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	margin: 200px auto;
+}

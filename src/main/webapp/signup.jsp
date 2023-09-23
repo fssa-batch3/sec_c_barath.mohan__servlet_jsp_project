@@ -76,7 +76,7 @@
 
 						<div class="form-floating mb-3">
 							<input type="password" class="form-control input" id="cpassword"
-								placeholder="Confirm password" required> <label
+								placeholder="Confirm password" name="cpwd" required> <label
 								for="cpassword">Confirm password</label>
 						</div>
 						<img src="./assets/images/icons/invisible.png" alt="icon"
@@ -100,5 +100,6 @@
 		</div>
 	</main>
 </body>
+	<jsp:include page="./successErrorMsg.jsp"></jsp:include>
 <script src="assets/js/signup.js"></script>
 </html>

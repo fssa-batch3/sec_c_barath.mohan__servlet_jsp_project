@@ -169,7 +169,7 @@
 		</div>
 
 		<!--  ----------Budget Form----------- -->
-		<form class="budget" action="./BudgetServlet" method="post">
+		<form id="createBudgetForm" class="budget" action="./BudgetServlet" method="post">
 			<h3>Create your Budget plan</h3>
 
 			<div class="flex">
@@ -321,6 +321,7 @@
 	<jsp:include page="./successErrorMsg.jsp"></jsp:include>
 	
 </body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="./assets/js/budget.js"></script>
 
 
