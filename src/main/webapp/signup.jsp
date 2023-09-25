@@ -23,8 +23,7 @@
 				alt="icon">
 			</a>
 			<p>
-				Already have a account? <a href="./login.jsp">Log
-					in </a>
+				Already have a account? <a href="./login.jsp">Log in </a>
 			</p>
 		</div>
 		<div class="maincontainer">
@@ -100,6 +99,6 @@
 		</div>
 	</main>
 </body>
-	<jsp:include page="./successErrorMsg.jsp"></jsp:include>
+<jsp:include page="./successErrorMsg.jsp"></jsp:include>
 <script src="assets/js/signup.js"></script>
 </html>

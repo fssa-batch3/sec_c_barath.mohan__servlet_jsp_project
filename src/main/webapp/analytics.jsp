@@ -29,6 +29,7 @@ if (budget != null) {
 	budgetCategories = (ArrayList) budget.getBudgetCategory();
 	
 }
+request.setAttribute("page", "analytics.jsp");
 %>
 </head>
 

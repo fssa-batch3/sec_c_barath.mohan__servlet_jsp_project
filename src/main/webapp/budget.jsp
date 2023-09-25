@@ -4,7 +4,7 @@
 <%@page import="com.fssa.proplan.model.Budget"%>
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	
+
 <!DOCTYPE html>
 <html>
 
@@ -36,12 +36,11 @@
 		totalAmountSpentPercentageChart = (totalAmountSpent / budgetAmount) * 120;
 		budgetCategories = (ArrayList<BudgetCategory>) budget.getBudgetCategory();
 	}
-
-	Logger.info(budget);
+	request.setAttribute("page", "budget.jsp");
 	%>
 	<jsp:include page="./header.jsp"></jsp:include>
 	<main>
-	
+
 		<!-- --------------left side div--------------- -->
 		<jsp:include page="./sidebar.jsp"></jsp:include>
 		<div class="center_content">
@@ -103,8 +102,10 @@
 			<div class="categories_compare">
 				<div class="categories_compare_header">
 					<h2>Categories</h2>
-
+					<input style="background-color: white;" type="text" id="search"
+						placeholder="Search">
 				</div>
+
 				<div class="categories_data">
 
 					<!-- ----------- nothing to show----------- -->
@@ -123,7 +124,7 @@
 					for (BudgetCategory category : budgetCategories) {
 
 						double amountSpentBarHeight = (category.getAmountSpent() / category.getBudgetAmount()) * 180;
-						double barHeight=180;
+						double barHeight = 180;
 						double budgetAmountBarHeight = barHeight;
 						if (amountSpentBarHeight > barHeight) {
 							budgetAmountBarHeight -= (amountSpentBarHeight - barHeight);
@@ -132,13 +133,15 @@
 						}
 					%>
 					<div class="cateogory_details">
-							<h3><%=category.getCategoryName()%></h3>
+						<h3><%=category.getCategoryName()%></h3>
 						<p>
-							Budget - <span class="budget_amount"> &#8377; <%=category.getBudgetAmount()%> /-
+							Budget - <span class="budget_amount"> &#8377; <%=category.getBudgetAmount()%>
+								/-
 							</span>
 						</p>
 						<p>
-							Spent - <span class="spent_amount">&#8377; <%=category.getAmountSpent()%> /-
+							Spent - <span class="spent_amount">&#8377; <%=category.getAmountSpent()%>
+								/-
 							</span>
 						</p>
 						<div class="category_chart">
@@ -155,7 +158,7 @@
 									style=" height:<%=amountSpentBarHeight%>px;"></div>
 							</div>
 						</div>
-						
+
 					</div>
 					<%
 					}
@@ -169,7 +172,8 @@
 		</div>
 
 		<!--  ----------Budget Form----------- -->
-		<form id="createBudgetForm" class="budget" action="./BudgetServlet" method="post">
+		<form id="createBudgetForm" class="budget" action="./BudgetServlet"
+			method="post">
 			<h3>Create your Budget plan</h3>
 
 			<div class="flex">
@@ -304,8 +308,8 @@
 					</div>
 
 					<!--  content comes from js -->
-					
-					
+
+
 				</div>
 				<p id="updated_add_category">Add a category</p>
 				<div class="save_category_details">
@@ -319,10 +323,10 @@
 
 	</main>
 	<jsp:include page="./successErrorMsg.jsp"></jsp:include>
-	
+	<jsp:include page="./searchBudgetCategory.jsp"></jsp:include>
 </body>
+
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="./assets/js/budget.js"></script>
-
 
 </html>

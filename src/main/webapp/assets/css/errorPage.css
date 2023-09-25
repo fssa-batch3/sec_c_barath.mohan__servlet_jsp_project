@@ -1,23 +1,22 @@
 @charset "ISO-8859-1";
 
-header {
-	display: flex;
-	justify-content: space-around;
-	margin: 20px;
+#errorImg{
+	width:350px;
+	margin:100px 0px 0px 0px;
 }
-
-header a {
-	background-color: #398be8;
-	padding: 6px 15px;
-	font-size: 14px;
-	font-weight: 600;
-	color: white;
-	border-radius: 4px;
-	cursor: pointer;
+.error_div{
+	text-align:center;
+	width:88%;
+	box-sizing: border-box;
+	padding:0px 100px;
 }
-
-main {
-	display: flex;
-	flex-direction: column;
-	margin: 200px auto;
+#h3_error{
+	margin:0px 0px 20px 0px;
+	font-size:24px;
+	color:#636363;
+}
+#p_error{
+	color:grey;
+	font-weight:600;
+	font-size:14px;
 }

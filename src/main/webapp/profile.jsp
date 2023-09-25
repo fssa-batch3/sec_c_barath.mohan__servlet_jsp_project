@@ -4,12 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="./assets/css/style.css">
+
 <link
 	href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
 	rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/profile.css">
 <link rel="stylesheet" href="./assets/css/errormsg.css">
+<link rel="stylesheet" href="./assets/css/style.css">
 <title>Proplan</title>
 </head>
 
@@ -30,6 +31,7 @@
 		emailId = user.getEmailId();
 		profession = user.getProfession();
 	}
+	request.setAttribute("page", "profile.jsp");
 	%>
 
 	<jsp:include page="./header.jsp"></jsp:include>

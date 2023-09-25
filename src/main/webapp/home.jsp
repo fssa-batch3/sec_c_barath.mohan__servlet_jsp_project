@@ -59,7 +59,10 @@
 	List<Transaction> transactionDetails = (List<Transaction>) request.getAttribute("transactionDetails");
 	Calendar cal = Calendar.getInstance();
 	String currentMonth = new SimpleDateFormat("MMMMMMMMMMM").format(cal.getTime());
+	
+	request.setAttribute("page", "home.jsp");
 	%>
+	
 	<jsp:include page="./header.jsp"></jsp:include>
 	<main>
 		<!-- --------------left side div--------------- -->

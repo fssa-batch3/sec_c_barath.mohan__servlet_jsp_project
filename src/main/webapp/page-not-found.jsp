@@ -8,23 +8,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Proplan - Error Page</title>
+<link rel="stylesheet" href="./assets/css/style.css">
 <link rel="stylesheet" href="./assets/css/errorPage.css">
+
 </head>
 <body>
-<%
-User user = (User) session.getAttribute("currentuser");
-String path="./home.jsp";
-if(user==null){
-	path="./login.jsp";
-}
-%>
-<header>
-<img src="./assets/images/icons/proplan_logo.png" alt="logo">
-<a href="<%=path%>">Back to Home</a>
-</header>
+	<%
+	User user = (User) session.getAttribute("currentuser");
+	String path = "./home.jsp";
+	if (user == null) {
+		path = "./login.jsp";
+	}
+	%>
+	<jsp:include page="./header.jsp"></jsp:include>
 	<main>
+	<jsp:include page="./sidebar.jsp"></jsp:include>
+	<div class="center_side error_div">
+		<img alt="404 error" src="./assets/images/gifs/404.gif" id="errorImg">
+		<h3 id="h3_error">OOPS! Page not found</h3>
+		<p id="p_error">Sorry, but the page you are looking for doesn't exist, have been removed, name changed or is temporarily unavailable.</p>
+	</div>
+
 	
-	<img alt="404 error" src="./assets/images/gifs/404.gif">
 	</main>
 </body>
 </html>
