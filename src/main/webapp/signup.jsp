@@ -28,7 +28,7 @@
 		</div>
 		<div class="maincontainer">
 			<div class="left">
-				<img src="./assets/images/signup image.jpg" alt="img">
+				<img src="./assets/images/signup_image.jpg" alt="img">
 			</div>
 			<div class="right">
 				<h2>Get Started !</h2>

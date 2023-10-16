@@ -106,10 +106,10 @@
 		<form class="add_expense_form" action="./AddExpenseServlet"
 			method="POST">
 			<h2>Add an Expense</h2>
-			<label for="expense_type">Title <input type="text"
-				id="expense_type" placeholder="Ex: movie,accessories..,"
-				name="remarks" required>
-			</label> <br>
+			 <label for="expense_amount">Amount <input type="number"
+				id="expense_amount" placeholder="Ex: 1000/2000/3000...,"
+				name="amount" required>
+			</label><br>
 			<p>Category:</p>
 			<div class="expense_category">
 				<%
@@ -125,10 +125,11 @@
 				%>
 
 			</div>
-			<label for="expense_amount">Amount <input type="number"
-				id="expense_amount" placeholder="Ex: 1000/2000/3000...,"
-				name="amount" required>
+			<label for="expense_type">Title <input type="text"
+				id="expense_type" placeholder="Ex: movie,accessories..,"
+				name="remarks" required>
 			</label>
+			
 			<div class="button_div">
 				<button type="submit" id="add_expense_button" value="submit">Add
 					Expense</button>
